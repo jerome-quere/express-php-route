@@ -54,7 +54,7 @@ class Route
 
   public function match($request, &$vars)
   {
-    if ($this->method != null && $request->getMethod() != $this->method)
+    if ($this->method !== null && $request->getMethod() != $this->method)
       return false;
 
     $matches = array();
