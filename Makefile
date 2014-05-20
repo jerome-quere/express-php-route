@@ -26,7 +26,8 @@ RM		=	rm -rf
 
 NAME		=	express-route.phar
 SRC_DIR		=	src
-SRC_FILE	=	Mime.class.php					\
+SRC_FILE	=	MiddlewareFactory.class.php				\
+			Mime.class.php					\
 			Request.class.php				\
 			Response.class.php				\
 			RouteProviderServiceController.class.php	\

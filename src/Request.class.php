@@ -41,8 +41,8 @@ class Request
   public function __construct($server, $get, $post)
   {
     $this->server = $server;
-    $this->get = (object)$get;
-    $this->post = (object)$post;
+    $this->get = $get;
+    $this->post = $post;
   }
 
   public function getMethod()
@@ -59,14 +59,31 @@ class Request
     return $tmp[0];
   }
 
-  public function getQuery()
+  public function getQuery($name = null)
   {
-    return $this->get;
+    if ($name == null)
+      return $this->get;
+    if (!isset($this->get[$name]))
+      return null;
+    return $this->get[$name];
+  }
+
+  public function getHeader($name)
+  {
+    if (isset($this->server[$name]))
+      return $this->server[$name];
+    return null;
   }
 
   public function getData()
   {
     return $this->post;
+  }
+
+  public function parseData($fn)
+  {
+    global $HTTP_RAW_POST_DATA;
+    $this->post = $fn($HTTP_RAW_POST_DATA);
   }
 }
 

@@ -27,27 +27,18 @@
 
 namespace express\route;
 
-require_once('RouteProviderServiceController.class.php');
-require_once('MiddlewareFactory.class.php');
-require_once('Mime.class.php');
-require_once('Request.class.php');
-require_once('Response.class.php');
-
-
-$module = \express\express::module('route', ['core']);
-
-$module->service('routeProvider', ['injector', function ($injector) {
-      return new RouteProviderServiceController($injector);
-    }]);
-
-$module->service('middlewareFactory', [function () {
-      return new MiddlewareFactory();
-    }]);
-
-$module->run(['routeProvider', function ($routeProvider) {
-      $request = new Request($_SERVER, $_GET, $_POST);
-      $response = new Response();
-      $routeProvider->exec($request, $response);
-    }]);
+class MiddlewareFactory
+{
+  public function createBodyParser()
+  {
+    return function ($req, $res) {
+      $contentType = $req->getHeader('CONTENT_TYPE');
+      if ($contentType and strpos($contentType, 'json') !== false)
+	$req->parseData(function ($data) {
+	    return json_decode($data, true);
+	  });
+    };
+  }
+}
 
 ?>

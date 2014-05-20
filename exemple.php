@@ -40,6 +40,11 @@ function notFound($response)
 //All the function registred with config will be called automaticly with injected dependency
 $app->config(function ($testor, $routeProvider) {
 
+    //Add Access-Control-Allow-Origin on all request
+    $routeProvider->useMiddleware(function ($request, $response) {
+	$response->setHeader('Access-Control-Allow-Origin', '*');
+      });
+
     //Register a route for /user/:id that will be handled by handleRequest callback. the id path parameter will be accecible in the $routeParams injectable
     $routeProvider->get('/user/:id', 'handleRequest');
 

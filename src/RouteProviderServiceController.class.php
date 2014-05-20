@@ -75,14 +75,21 @@ class Route
 class RouteProviderServiceController
 {
   private $routes;
+  private $middlewares;
   private $defaultRoute;
   private $injector;
 
   public function __construct($injector)
   {
     $this->routes = array();
+    $this->middlewares = array();
     $this->defaultRoute = array('response', function ($r) {$r->setCode('404')->send();});
     $this->injector = $injector;
+  }
+
+  public function useMiddleware($middleware)
+  {
+    $this->middlewares[] = $middleware;
   }
 
   public function get($path, $cb)
@@ -124,6 +131,9 @@ class RouteProviderServiceController
 
   public function exec($request, $response)
   {
+    foreach ($this->middlewares as $middleware)
+      $middleware($request, $response);
+
     $pathVars = array();
     foreach ($this->routes as $route)
       {
