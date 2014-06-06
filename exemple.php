@@ -4,6 +4,7 @@
  * To make this exemple work properly you should create a '.htaccess' file such as :
  *
  * RewriteEngine On
+ * RewriteRule ^$ /exemple.php [L]
  * RewriteCond %{REQUEST_FILENAME} !-d
  * RewriteCond %{REQUEST_FILENAME} !-f
  * RewriteRule ^.*$ /exemple.php [L]
