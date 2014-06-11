@@ -75,6 +75,14 @@ class Request
     return null;
   }
 
+  public function getContentType()
+  {
+    $contentType = $this->getHeader('CONTENT_TYPE');
+    if ($contentType == null)
+      $contentType = $this->getHeader('HTTP_CONTENT_TYPE');
+    return $contentType;
+  }
+
   public function getData()
   {
     return $this->post;
@@ -82,8 +90,8 @@ class Request
 
   public function parseData($fn)
   {
-    global $HTTP_RAW_POST_DATA;
-    $this->post = $fn($HTTP_RAW_POST_DATA);
+    $raw = file_get_contents("php://input");
+    $this->post = $fn($raw);
   }
 }
 

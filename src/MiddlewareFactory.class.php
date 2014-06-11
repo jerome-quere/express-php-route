@@ -32,7 +32,7 @@ class MiddlewareFactory
   public function createBodyParser()
   {
     return function ($req, $res) {
-      $contentType = $req->getHeader('CONTENT_TYPE');
+      $contentType = $req->getContentType();
       if ($contentType and strpos($contentType, 'json') !== false)
 	$req->parseData(function ($data) {
 	    return json_decode($data, true);
