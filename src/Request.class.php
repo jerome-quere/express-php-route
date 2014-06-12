@@ -33,6 +33,7 @@ class Request
   const POST = 1;
   const PUT = 2;
   const DELETE = 3;
+  const OPTIONS = 4;
 
   private $server = array();
   private $get = array();
@@ -47,7 +48,7 @@ class Request
 
   public function getMethod()
   {
-    $tmp = array("GET" => self::GET, "POST" => self::POST, "PUT" => self::PUT, "DELETE" => self::DELETE);
+    $tmp = array("GET" => self::GET, "POST" => self::POST, "PUT" => self::PUT, "DELETE" => self::DELETE, "OPTIONS"=> self::OPTIONS);
     if (isset($tmp[$this->server['REQUEST_METHOD']]))
       return $tmp[$this->server['REQUEST_METHOD']];
     throw new \Exception ("express::route::Request::getMethod: Unsuported method " . $this->server['REQUEST_METHOD']);
